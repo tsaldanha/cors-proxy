@@ -19,14 +19,11 @@ app.all('*', function (req, res, next) {
         // CORS Preflight
         res.send();
     } else {
-        var targetURL = req.header('Target-URL');
-        if (!targetURL) {
-            res.send(500, { error: 'There is no Target-Endpoint header in the request' });
-            return;
-        }
-        request({ url: targetURL + req.url, method: req.method, json: req.body },
+        request({ url: 'http://grupozap-code-challenge.s3-website-us-east-1.amazonaws.com/sources/source-1.json', method: req.method, json: req.body },
             function (error, response, body) {
                 if (error) {
+                    console.log(response);
+
                     console.error('error: ' + response.statusCode)
                 }
 //                console.log(body);
@@ -34,7 +31,7 @@ app.all('*', function (req, res, next) {
     }
 });
 
-app.set('port', process.env.PORT || 3000);
+app.set('port', process.env.PORT || 3003);
 
 app.listen(app.get('port'), function () {
     console.log('Proxy server listening on port ' + app.get('port'));
